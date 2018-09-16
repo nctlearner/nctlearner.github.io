@@ -1,5 +1,6 @@
 var members = [];
 
+//function to create array of member ojects from csv file
 function CSVtomembers(file)
 {
 	var rawFile = new XMLHttpRequest();
@@ -12,20 +13,24 @@ function CSVtomembers(file)
       {
       	var allText = rawFile.responseText;
         members = allText.split('\n');
-
         var headers = members[0].split(',');
 				var jsonObj = [];
-				for(var i = 1; i < arr.length; i++) 
+				var al = members.length;
+
+				for(var i = 1; i < members.length; i++) 
 				{
 				  var data = members[i].split(',');
 				  var obj = {};
-				  for(var j = 0; j < data.length; j++) 
+				  for(var j = 0; j < headers.length; j++) 
 				  {
-				    obj[headers[j].trim()] = data[j].trim();
+				  	var position = data[j].split(';');
+				  	for(var k = 0; k < position.length; k++) 
+				  	{
+				   		obj[headers[j]] = position[k];
+				  	}
 				  }
 				  jsonObj.push(obj);
 				}
-			JSON.stringify(jsonObj);
       members.push(jsonObj);      
       }
     }
@@ -33,11 +38,7 @@ function CSVtomembers(file)
   rawFile.send(0);
 }
 
-
-
-alert("debug");
-CSVtomembers("./members.csv");
-var str = JSON.stringify(members[0]);
-alert(str); // Logs output to dev tools console.
+//data structure to store learning of user 
+var learned = members;
 
 
